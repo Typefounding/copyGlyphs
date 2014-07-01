@@ -29,5 +29,7 @@
 	<real>1404228959.091691</real>
 	<key>version</key>
 	<string>1.0</string>
+	<key>repository</key>
+	<string>Typefounding/copyGlyphs</string>
 </dict>
 </plist>
