@@ -28,8 +28,13 @@
 	<key>timeStamp</key>
 	<real>1404228959.091691</real>
 	<key>version</key>
-	<string>1.0</string>
-	<key>repository</key>
-	<string>Typefounding/copyGlyphs</string>
+	<string>1.1</string>
+	<key>com.robofontmechanic.Mechanic</key>
+        <dict>
+	    <key>repository</key>
+	    <string>Typefounding/copyGlyphs</string>
+	    <key>summary</key>
+            <string>Copies the selected glyphs from one open font to other open font(s).</string>
+        </dict>
 </dict>
 </plist>
