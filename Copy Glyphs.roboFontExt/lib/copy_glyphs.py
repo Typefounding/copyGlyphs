@@ -18,10 +18,22 @@ class CopyGlyphs:
         self.glyphs = None
         self.mark = NSColor.redColor()
         
+        sl = []
+        for f in self.sourceFontList:
+            if f.info.familyName != None:
+                fn = f.info.familyName
+            else:
+                fn = "None"
+            if f.info.styleName != None:
+                fs = f.info.styleName
+            else:
+                fs = "None"
+            sl.append(fn+" "+fs)
+        
         ## create a window
         self.w = Window((700, 500), "Copy Glyphs", minSize=(700, 500))
         self.w.sourceTitle = TextBox((15, 20, 200, 20), "Source Font:")
-        self.w.sourceFont = PopUpButton((15, 42, -410, 20), [f.info.familyName + ' ' + f.info.styleName for f in self.sourceFontList], callback=self.sourceCallback)
+        self.w.sourceFont = PopUpButton((15, 42, -410, 20), sl, callback=self.sourceCallback)
         self.w.glyphs = GlyphCollectionView((16, 70, -410, -65), initialMode="list", enableDelete=False, allowDrag=False, selectionCallback=self.glyphCallback)
         self._sortGlyphs(self.source_font)
         self.w.desTitle = TextBox((-400, 20, 200, 20), "Destination Fonts:")
@@ -30,6 +42,7 @@ class CopyGlyphs:
         self.w.markGlyphs = CheckBox((-395, -84, 100, 22), "Mark Glyphs", callback=self.markCallback, value=self.doMarkGlyphs)
         self.w.copyButton = Button((-115, -40, 100, 20), 'Copy Glyphs', callback=self.copyCallback)
         self.w.line = HorizontalLine((10, -50, -10, 1))
+        self._checkSelection()
         self._updateDest()
         ## open the window
         self.w.open()
@@ -52,6 +65,20 @@ class CopyGlyphs:
             count += 1
         return name
         
+        
+    def _checkSelection(self):
+        if self.glyphs == None or len(self.glyphs) == 0:
+            if len(self.source_font.selection) != 0:
+                self.glyphs = self.source_font.selection
+                select = []
+                for i, g in enumerate(self.w.glyphs):
+                    if g.name in self.glyphs:
+                        select.append(i)
+                print select
+                self.w.glyphs.setSelection(select)
+        print self.glyphs
+        
+
     def copyGlyphs(self, glyphs, source_font, destination_fonts, overwrite, mark):
         for glyph in glyphs:
             for font in destination_fonts:
@@ -81,6 +108,7 @@ class CopyGlyphs:
     def sourceCallback(self, sender):
         self.source_font = self.sourceFontList[sender.get()]
         self._sortGlyphs(self.source_font)
+        self._checkSelection()
         self._updateDest()
  
     def glyphCallback(self, sender):
