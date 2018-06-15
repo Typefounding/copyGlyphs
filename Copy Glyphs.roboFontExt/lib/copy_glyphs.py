@@ -17,7 +17,7 @@ class CopyGlyphs:
         self.destination_fonts = None
         self.glyphs = None
         self.mark = NSColor.redColor()
-        
+
         sl = []
         for f in self.sourceFontList:
             if f.info.familyName != None:
@@ -29,7 +29,7 @@ class CopyGlyphs:
             else:
                 fs = "None"
             sl.append(fn+" "+fs)
-        
+
         ## create a window
         self.w = Window((700, 500), "Copy Glyphs", minSize=(700, 500))
         self.w.sourceTitle = TextBox((15, 20, 200, 20), "Source Font:")
@@ -46,12 +46,12 @@ class CopyGlyphs:
         self._updateDest()
         ## open the window
         self.w.open()
-    
+
     def _updateDest(self):
         des = list(self.sourceFontList)
         des.remove(self.source_font)
         self.w.destinationFonts.set(des)
-    
+
     def _sortGlyphs(self, font):
         gs = font.keys()
         gs.sort()
@@ -64,8 +64,8 @@ class CopyGlyphs:
             name = name + str(count)
             count += 1
         return name
-        
-        
+
+
     def _checkSelection(self):
         if self.glyphs == None or len(self.glyphs) == 0:
             if len(self.source_font.selection) != 0:
@@ -74,10 +74,10 @@ class CopyGlyphs:
                 for i, g in enumerate(self.w.glyphs):
                     if g.name in self.glyphs:
                         select.append(i)
-                print select
+                print(select)
                 self.w.glyphs.setSelection(select)
-        print self.glyphs
-        
+        print(self.glyphs)
+
 
     def copyGlyphs(self, glyphs, source_font, destination_fonts, overwrite, mark):
         for glyph in glyphs:
@@ -86,9 +86,9 @@ class CopyGlyphs:
                     n = self._altName(font, glyph)
                 else:
                     n = glyph
-                
+
                 font.insertGlyph(source_font[glyph], name=n)
-                
+
                 if mark == 1:
                     font[n].mark = NSColorToRgba(self.mark)
 
@@ -101,22 +101,22 @@ class CopyGlyphs:
             self.w.colorWell = ColorWell((-265, -85, 100, 23), callback=self.colorCallback, color=self.mark)
         else:
             del self.w.colorWell
-        
+
     def colorCallback(self, sender):
         self.mark = sender.get()
-    
+
     def sourceCallback(self, sender):
         self.source_font = self.sourceFontList[sender.get()]
         self._sortGlyphs(self.source_font)
         self._checkSelection()
         self._updateDest()
- 
+
     def glyphCallback(self, sender):
         self.glyphs = [self.w.glyphs[x].name for x in sender.getSelection()]
-        
+
     def desCallback(self, sender):
         self.destination_fonts = [sender.get()[x] for x in sender.getSelection()]
-        
+
     def copyCallback(self, sender):
         self.sheet = Sheet((300, 50), self.w)
         self.sheet.bar = ProgressBar((10, 20, -10, 10), isIndeterminate=True, sizeStyle="small")
