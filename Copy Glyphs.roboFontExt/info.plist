@@ -26,15 +26,8 @@
 	<key>name</key>
 	<string>Copy Glyphs</string>
 	<key>timeStamp</key>
-	<real>1510687688.091691</real>
+	<real>1529076994</real>
 	<key>version</key>
-	<string>1.1</string>
-	<key>com.robofontmechanic.Mechanic</key>
-	<dict>
-		<key>repository</key>
-		<string>Typefounding/copyGlyphs</string>
-		<key>summary</key>
-		<string>Copies the selected glyphs from one open font to other open font(s).</string>
-	</dict>
+	<string>1.2</string>
 </dict>
 </plist>
