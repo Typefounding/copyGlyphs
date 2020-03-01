@@ -53,9 +53,8 @@ class CopyGlyphs:
         self.w.destinationFonts.set(des)
 
     def _sortGlyphs(self, font):
-        gs = font.keys()
-        gs.sort()
-        self.w.glyphs.set([font[x] for x in gs])
+        gs = font.keys()        
+        self.w.glyphs.set([font[x] for x in sorted(gs)])
 
     def _altName(self, font, glyph):
         name = glyph + '.copy'
